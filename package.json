@@ -1,0 +1,20 @@
+{
+  "name": "case-cloudwalk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VictorVarges/CASE-CLOUDWALK.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VictorVarges/CASE-CLOUDWALK/issues"
+  },
+  "homepage": "https://github.com/VictorVarges/CASE-CLOUDWALK#readme"
+}
