@@ -1,19 +1,17 @@
 const express = require('express');
-const router = express.Router();
 const transactionService = require('../services/transaction.service');
 
-router.get('/transactions', async (req, res) => {
+const getAllTransactions = async (req, res) => {
   const transactions = await transactionService.getAllTransactions();
   res.json(transactions);
-});
+};
 
-router.post('/transactions', async (req, res) => {
-  const transactionData = req.body;
+const validateTransaction = async (req, res) => {
+  const receivedTransaction = req.body;
+  const validationResult = await transactionService.validateTransaction(receivedTransaction);
+  
+  res.json(validationResult);
 
+}
 
-  const newTransaction = await transactionService.createTransaction(transactionData);
-  res.json(newTransaction);
-});
-
-
-module.exports = router;
+module.exports = { getAllTransactions, validateTransaction };  

@@ -1,16 +1,12 @@
-const mongoose = require('mongoose');
+const connection = require("./connection");
 
-const transactionSchema = new mongoose.Schema({
-  transaction_id: Number,
-  merchant_id: Number,
-  user_id: Number,
-  card_number: String,
-  transaction_date: Date,
-  transaction_amount: Number,
-  device_id: Number,
-  has_cbk: Boolean,
-});
 
-const transaction = mongoose.model('Transaction', transactionSchema);
+const find = async () => {
+  const [result] = await connection.query(
+    'SELECT * FROM DB_TRANSACTIONS.transactions',
+  );
+  return result;
+}
 
-module.exports = transaction;
+
+module.exports = { find };

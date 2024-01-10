@@ -1,15 +1,16 @@
-const Transaction = require('../models/transaction.model');
+const transaction = require('../models/transaction.model');
 
-class transactionService {
-  async getAllTransactions() {
-    return await Transaction.find();
+ 
+  const getAllTransactions = async () => {
+    return await transaction.find();
+  }
+  
+  const validateTransaction = async (receivedTransaction) => {
+    if(receivedTransaction.has_cbk == 'FALSE') {
+      return ({ 'transaction_id' : receivedTransaction.transaction_id, 'recommendation': 'approve'});
+    } else {
+      return ({'transaction_id' : receivedTransaction.transaction_id, 'recommendation': 'denied'})
+    }
   }
 
-  async createTransaction(transactionData) {
-    const newTransaction = new Transaction(transactionData);
-    return await newTransaction.save();
-  }
-
-}
-
-module.exports = new transactionService();
+module.exports = { getAllTransactions, validateTransaction };
