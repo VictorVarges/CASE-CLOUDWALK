@@ -5,12 +5,19 @@ const transaction = require('../models/transaction.model');
     return await transaction.find();
   }
   
-  const validateTransaction = async (receivedTransaction) => {
-    if(receivedTransaction.has_cbk == 'FALSE') {
-      return ({ 'transaction_id' : receivedTransaction.transaction_id, 'recommendation': 'approve'});
-    } else {
-      return ({'transaction_id' : receivedTransaction.transaction_id, 'recommendation': 'denied'})
-    }
-  }
+  const validateTransactionsInArow = async (receivedTransactions) => {
+    const transactionDates = [];
 
-module.exports = { getAllTransactions, validateTransaction };
+    for (const transaction of receivedTransactions) {
+      if (transaction && transaction.hasOwnProperty('transaction_date')) {
+        transactionDates.push(transaction.transaction_date);
+      }
+    }
+  
+    return transactionDates;
+  };
+   
+
+ 
+
+module.exports = { getAllTransactions, validateTransactionsInArow };
