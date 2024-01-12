@@ -6,18 +6,15 @@ const transaction = require('../models/transaction.model');
   }
   
   const validateTransactionsInArow = async (receivedTransactions) => {
-    const transactionDates = [];
+    const datesTransactions = [];
 
-    for (const transaction of receivedTransactions) {
-      if (transaction && transaction.hasOwnProperty('transaction_date')) {
-        transactionDates.push(transaction.transaction_date);
+    for (const transactions of receivedTransactions) {
+      if (transactions && transactions.hasOwnProperty('transaction_date')) {
+        datesTransactions.push(transactions.transaction_date);
       }
     }
   
-    return transactionDates;
+    return datesTransactions;
   };
-   
 
- 
-
-module.exports = { getAllTransactions, validateTransactionsInArow };
+module.exports = { getAllTransactions, validateTransactionsInArow, validateTransaction };

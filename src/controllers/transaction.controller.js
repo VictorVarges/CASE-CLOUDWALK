@@ -9,9 +9,20 @@ const getAllTransactions = async (req, res) => {
 const validateTransactionsInArow = async (req, res) => {
   const receivedTransaction = req.body;
   const validationResult = await transactionService.validateTransactionsInArow(receivedTransaction);
-  console.log('AAA', validationResult);
+  
   res.json(validationResult);
 
 }
 
-module.exports = { getAllTransactions, validateTransactionsInArow };  
+const validateTransaction = async (req, res) => {
+  const receivedTransaction = req.body;
+  const validationResult = await transactionService.validateTransaction(receivedTransaction);
+
+  res.json(validationResult);
+
+}
+
+
+
+
+module.exports = { getAllTransactions, validateTransactionsInArow, validateTransaction };  
