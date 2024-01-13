@@ -1,35 +1,39 @@
 const express = require('express');
-const { HTTPRESPONSE, HTTPSTATUS } = require('../HTTP/http.response')
+const { HTTPRESPONSE, HTTPSTATUS, HTTPRESPONSEDENIED } = require('../HTTP/http.response')
 
-
-
-const validationFieldRequired = (req, res, next) => {
+const FieldsRequired = (req, res, next) => {
   const payload = req.body
-  console.log('AAAAAAAA', payload[0]);
-  if (!payload.transaction_id) {
-    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json(HTTPRESPONSE.transaction_id)
+  const { transaction_id, merchant_id, user_id, card_number, transaction_date, transaction_amount, device_id } = payload;
+
+  if (!transaction_id) {
+    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json({ transaction_id: transaction_id, recommendation: HTTPRESPONSEDENIED.recommendation })
   }
-  if (!payload.merchant_id) {
-    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json(HTTPRESPONSE.merchant_id)
+  if (!merchant_id) {
+    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json({ transaction_id: transaction_id, recommendation: HTTPRESPONSEDENIED.recommendation })
   }
-  if (!payload.user_id) {
-    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json(HTTPRESPONSE.user_id)
+  if (!user_id) {
+    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json({ transaction_id: transaction_id, recommendation: HTTPRESPONSEDENIED.recommendation })
   }
-  if (!payload.card_number) {
-    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json(HTTPRESPONSE.card_number)
+  if (!card_number || card_number.length !== 16) {
+    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json({ transaction_id: transaction_id, recommendation: HTTPRESPONSEDENIED.recommendation })
   }
-  if (!payload.transaction_date) {
-    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json(HTTPRESPONSE.transaction_date)
+  if (!transaction_date) {
+    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json({ transaction_id: transaction_id, recommendation: HTTPRESPONSEDENIED.recommendation })
   }
-  if (!payload.transaction_amount) {
-    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json(HTTPRESPONSE.transaction_amount)
+  if (!transaction_amount) {
+    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json({ transaction_id: transaction_id, recommendation: HTTPRESPONSEDENIED.recommendation })
   }
-  if (!payload.device_id) {
-    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json(HTTPRESPONSE.device_id)
+  if (!device_id) {
+    return res.status(HTTPSTATUS.UNPROCESSABLE_ENTITY).json({ transaction_id: transaction_id, recommendation: HTTPRESPONSEDENIED.recommendation })
   }
 
   next();
 }
 
 
-module.exports = { validationFieldRequired };
+const validationsPayload = (requisition, response, next) => {
+  FieldsRequired(requisition, response, next);
+}
+
+
+module.exports = { validationsPayload };
