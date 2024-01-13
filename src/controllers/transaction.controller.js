@@ -1,28 +1,34 @@
 const express = require('express');
 const transactionService = require('../services/transaction.service');
+const validations = require('../middlewares/validations')
+// const HTTPRESPONSE = require('../HTTP/http.response');
+const middlewares = require('../middlewares/validations');
 
 const getAllTransactions = async (req, res) => {
   const transactions = await transactionService.getAllTransactions();
   res.json(transactions);
 };
 
-const validateTransactionsInArow = async (req, res) => {
+const validationFieldRequired = (req, res, next) => {
   const receivedTransaction = req.body;
-  const validationResult = await transactionService.validateTransactionsInArow(receivedTransaction);
-  
-  res.json(validationResult);
+  const validationField = validations.validationFieldRequired(receivedTransaction);
 
+  if (validationField) {
+    res.status(201).json(validationField);
+  }
+
+  next()
 }
 
-const validateTransaction = async (req, res) => {
+const validateTransaction = (req, res, next) => {
   const receivedTransaction = req.body;
-  const validationResult = await transactionService.validateTransaction(receivedTransaction);
+  const validationResult = transactionService.validateTransaction(receivedTransaction);
 
-  res.json(validationResult);
+  if (validationResult) {
+    res.json(validationResult);
+  }
 
+  next()
 }
 
-
-
-
-module.exports = { getAllTransactions, validateTransactionsInArow, validateTransaction };  
+module.exports = { getAllTransactions, validationFieldRequired, validateTransaction };  
