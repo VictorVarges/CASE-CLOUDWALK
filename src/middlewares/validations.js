@@ -1,7 +1,7 @@
 const express = require('express');
-const { HTTPRESPONSE, HTTPSTATUS, HTTPRESPONSEDENIED } = require('../HTTP/http.response')
+const { HTTPSTATUS, HTTPRESPONSEDENIED } = require('../HTTP/http.response')
 
-const FieldsRequired = (req, res, next) => {
+const validationsPayload = (req, res, next) => {
   const payload = req.body
   const { transaction_id, merchant_id, user_id, card_number, transaction_date, transaction_amount, device_id } = payload;
 
@@ -28,11 +28,6 @@ const FieldsRequired = (req, res, next) => {
   }
 
   next();
-}
-
-
-const validationsPayload = (requisition, response, next) => {
-  FieldsRequired(requisition, response, next);
 }
 
 

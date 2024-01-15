@@ -1,32 +1,23 @@
 const express = require('express');
 const transactionService = require('../services/transaction.service');
-const validations = require('../middlewares/validations')
+const { HTTPSTATUS, HTTPRESPONSEAPPROVE, HTTPRESPONSEDENIED } = require('../HTTP/http.response');
 
 const getAllTransactions = async (req, res) => {
-  const transactions = await transactionService.getAllTransactions();
-  res.json(transactions);
+  const allTransactions = await transactionService.getAllTransactions();
+  
+  res.json(allTransactions);
 };
 
-const validationFieldRequired = (req, res, next) => {
-  const receivedTransaction = req.body;
-  const validationField = validations.validationsPayload(receivedTransaction);
+const validateTransaction = async (req, res, next) => {
+  const { transaction_id } = req.body;
+  const validateResult = await transactionService.validateTransaction(req.body);
 
-  if (validationField) {
-    res.status(201).json(validationField);
+  if(!validateResult) {
+  return res.status(HTTPSTATUS.OK).json({ transaction_id: transaction_id, recommendation: HTTPRESPONSEDENIED.recommendation });
   }
+  res.status(HTTPSTATUS.OK).json({ transaction_id: transaction_id, recommendation: HTTPRESPONSEAPPROVE.recommendation });
+  
 
-  next()
 }
 
-const validateTransaction = (req, res, next) => {
-  const receivedTransaction = req.body;
-  const validationResult = transactionService.validateTransaction(receivedTransaction);
-
-  if (validationResult) {
-    res.json(validationResult);
-  }
-
-  next()
-}
-
-module.exports = { getAllTransactions, validationFieldRequired, validateTransaction };  
+module.exports = { getAllTransactions, validateTransaction };  
