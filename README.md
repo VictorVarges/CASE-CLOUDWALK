@@ -35,10 +35,10 @@ Clone this project and install all dependencies:
 
 Create a .env file with the following structure:
 
-MYSQL\_USER=root
-MYSQL\_PASSWORD=senha\_mysql
-MYSQL\_DATABASE=transactions
-MYSQL\_HOST='127.0.0.1'
+MYSQL\_USER=root  
+MYSQL\_PASSWORD=senha\_mysql    
+MYSQL\_DATABASE=transactions  
+MYSQL\_HOST='127.0.0.1'  
     
 
 After downloading the project, access the path and enter the folder:
@@ -50,21 +50,22 @@ Upon entering the folder, execute the following command to create the database t
 `npx nodemon app.js`
 
 For database integration, execute this SQL script using your preferred framework that runs MYSQL12:
+---------------------------------------------------------------------------------------------------
 
-CREATE DATABASE IF NOT EXISTS DB\_TRANSACTIONS;
+CREATE DATABASE IF NOT EXISTS DB\_TRANSACTIONS;  
 
-USE DB\_TRANSACTIONS;
+USE DB\_TRANSACTIONS;  
 
-CREATE TABLE \`transactions\` 
+CREATE TABLE \`transactions\`   
 (
-    \`transaction\_id\` INT,
-    \`merchant\_id\` INT,
-    \`user\_id\` INT,
-    \`card\_number\` VARCHAR(512),
-    \`transaction\_date\` DATETIME,
-    \`transaction\_amount\` DOUBLE,
-    \`device\_id\` INT,
-    \`has\_cbk\` BOOLEAN
+    \`transaction\_id\` INT,  
+    \`merchant\_id\` INT,  
+    \`user\_id\` INT,  
+    \`card\_number\` VARCHAR(512),  
+    \`transaction\_date\` DATETIME,  
+    \`transaction\_amount\` DOUBLE,  
+    \`device\_id\` INT,  
+    \`has\_cbk\` BOOLEAN  
 );
 
 INSERT INTO \`transactions\` (\`transaction\_id\`, \`merchant\_id\`, \`user\_id\`, \`card\_number\`, \`transaction\_date\`, \`transaction\_amount\`, \`device\_id\`, \`has\_cbk\`) VALUES
