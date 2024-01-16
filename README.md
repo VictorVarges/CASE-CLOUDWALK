@@ -1,5 +1,3 @@
-\`\`\`html    Antifraud System 🚫💳
-
 Antifraud System 🚫💳
 =====================
 
@@ -85,4 +83,3 @@ You can use [Postman](https://www.postman.com/), [Thunder Client](https://www.th
 *   **Rejection of a transaction if a customer makes up to 5 attempts within 1 hour** ⏰
 *   **Denial of more than 3 transactions with a value greater than or equal to X within 1 hour** 🚫💸
 
-\`\`\`
