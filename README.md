@@ -1,94 +1,88 @@
-Absolutely! Here's the updated HTML document with more emojis:
+\`\`\`html    Antifraud System 🚫💳
 
-```html
-<!DOCTYPE html>
-<html lang="en">
+Antifraud System 🚫💳
+=====================
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antifraud System 🚫💳</title>
-</head>
+Description ℹ️
+--------------
 
-<body>
+This project is about creating an antifraud system, implemented through a CRUD using Node.js for the MSC architecture. The system uses a MySQL relational database to store transactions, querying and inserting data into the 'transactions' table.
 
-    <h1>Antifraud System 🚫💳</h1>
+Database 🛢️
+------------
 
-    <h2>Description ℹ️</h2>
-    <p>This project is about creating an antifraud system, implemented through a CRUD using Node.js for the MSC architecture. The system uses a MySQL relational database to store transactions, querying and inserting data into the 'transactions' table.</p>
+For the project's conception, it was necessary to create a database called DB\_TRANSACTIONS. Database requests were made through the 'transactions' table.
 
-    <h2>Database 🛢️</h2>
-    <p>For the project's conception, it was necessary to create a database called DB_TRANSACTIONS. Database requests were made through the 'transactions' table.</p>
+Endpoints 🛣️
+-------------
 
-    <h2>Endpoints 🛣️</h2>
-    <p>It's important to note that all requests were made through the '/transactions' route. To check all case validations, access the following endpoints:</p>
-    <ul>
-        <li>GET /transactions</li>
-        <li>POST /transactions</li>
-    </ul>
+It's important to note that all requests were made through the '/transactions' route. To check all case validations, access the following endpoints:
 
-    <h2>Tools 🧰</h2>
-    <ul>
-        <li>Node.js with Express.js</li>
-        <li>MySQL</li>
-        <li>REST API CRUD</li>
-    </ul>
+*   GET /transactions
+*   POST /transactions
 
-    <h2>Installation of Dependencies ⚙️</h2>
-    <p>Clone this project and install all dependencies:</p>
-    <code>npm install</code>
-    <p>Create a .env file with the following structure:</p>
-    <pre>
-MYSQL_USER=root
-MYSQL_PASSWORD=senha_mysql
-MYSQL_DATABASE=transactions
-MYSQL_HOST='127.0.0.1'
-    </pre>
+Tools 🧰
+--------
 
-    <p>After downloading the project, access the path and enter the folder:</p>
-    <code>src</code>
-    <p>Upon entering the folder, execute the following command to create the database tables and perform validations:</p>
-    <code>npx nodemon app.js</code>
+*   Node.js with Express.js
+*   MySQL
+*   REST API CRUD
 
-    <p>For database integration, execute this SQL script using your preferred framework that runs MYSQL12:</p>
-    <pre>
-CREATE DATABASE IF NOT EXISTS DB_TRANSACTIONS;
+Installation of Dependencies ⚙️
+-------------------------------
 
-USE DB_TRANSACTIONS;
+Clone this project and install all dependencies:
 
-CREATE TABLE `transactions` 
+`npm install`
+
+Create a .env file with the following structure:
+
+MYSQL\_USER=root
+MYSQL\_PASSWORD=senha\_mysql
+MYSQL\_DATABASE=transactions
+MYSQL\_HOST='127.0.0.1'
+    
+
+After downloading the project, access the path and enter the folder:
+
+`src`
+
+Upon entering the folder, execute the following command to create the database tables and perform validations:
+
+`npx nodemon app.js`
+
+For database integration, execute this SQL script using your preferred framework that runs MYSQL12:
+
+CREATE DATABASE IF NOT EXISTS DB\_TRANSACTIONS;
+
+USE DB\_TRANSACTIONS;
+
+CREATE TABLE \`transactions\` 
 (
-    `transaction_id` INT,
-    `merchant_id` INT,
-    `user_id` INT,
-    `card_number` VARCHAR(512),
-    `transaction_date` DATETIME,
-    `transaction_amount` DOUBLE,
-    `device_id` INT,
-    `has_cbk` BOOLEAN
+    \`transaction\_id\` INT,
+    \`merchant\_id\` INT,
+    \`user\_id\` INT,
+    \`card\_number\` VARCHAR(512),
+    \`transaction\_date\` DATETIME,
+    \`transaction\_amount\` DOUBLE,
+    \`device\_id\` INT,
+    \`has\_cbk\` BOOLEAN
 );
 
-INSERT INTO `transactions` (`transaction_id`, `merchant_id`, `user_id`, `card_number`, `transaction_date`, `transaction_amount`, `device_id`, `has_cbk`) VALUES
-    ('21320398', '29744', '97051', '434505******9116', '2019-12-01T23:16:32.812632', '374.56', '285475', FALSE);
-    </pre>
+INSERT INTO \`transactions\` (\`transaction\_id\`, \`merchant\_id\`, \`user\_id\`, \`card\_number\`, \`transaction\_date\`, \`transaction\_amount\`, \`device\_id\`, \`has\_cbk\`) VALUES
+    ('21320398', '29744', '97051', '434505\*\*\*\*\*\*9116', '2019-12-01T23:16:32.812632', '374.56', '285475', FALSE);
+    
 
-    <p>You can use <a href="https://www.postman.com/">Postman</a>, <a href="https://www.thunderclient.com/">Thunder Client</a>, or <a href="https://insomnia.rest/">Insomnia</a> to make requests to the endpoints. Also, check the <a href="https://bootcamp.rocketacademy.co/4-backend-structure/4.1-orm-sequelize/4.1.9-sequelize-setup-cheatsheet">Sequelize Setup Cheatsheet</a> created by Rocket Academy.</p>
+You can use [Postman](https://www.postman.com/), [Thunder Client](https://www.thunderclient.com/), or [Insomnia](https://insomnia.rest/) to make requests to the endpoints. Also, check the [Sequelize Setup Cheatsheet](https://bootcamp.rocketacademy.co/4-backend-structure/4.1-orm-sequelize/4.1.9-sequelize-setup-cheatsheet) created by Rocket Academy.
 
-    <h3>Project Achievements 🏆</h3>
-    <ul>
-        <li><strong>Integration with MySQL and Node.js</strong> 🚀</li>
-        <li><strong>Rendering of JSON through Express</strong> 🎨</li>
-        <li><strong>Use of Insomnia for tests with POST and GET</strong> 🧪</li>
-        <li><strong>Validation of each field (whether filled or not, returning the suggested response)</strong> ✅</li>
-        <li><strong>Validation of character size sent in the payload by the 'card_number' key (if a card number is sent without the standard number of characters for a credit card, it will be denied)</strong> 📏</li>
-        <li><strong>Rejection of a transaction if a customer makes up to 5 attempts within 1 hour</strong> ⏰</li>
-        <li><strong>Denial of more than 3 transactions with a value greater than or equal to X within 1 hour</strong> 🚫💸</li>
-    </ul>
+### Project Achievements 🏆
 
-</body>
+*   **Integration with MySQL and Node.js** 🚀
+*   **Rendering of JSON through Express** 🎨
+*   **Use of Insomnia for tests with POST and GET** 🧪
+*   **Validation of each field (whether filled or not, returning the suggested response)** ✅
+*   **Validation of character size sent in the payload by the 'card\_number' key (if a card number is sent without the standard number of characters for a credit card, it will be denied)** 📏
+*   **Rejection of a transaction if a customer makes up to 5 attempts within 1 hour** ⏰
+*   **Denial of more than 3 transactions with a value greater than or equal to X within 1 hour** 🚫💸
 
-</html>
-```
-
-This version includes additional emojis for each section and achievement to add a bit more flair to the document.
+\`\`\`
