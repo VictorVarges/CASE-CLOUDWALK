@@ -77,4 +77,6 @@ You can use [Postman](https://www.postman.com/), [Thunder Client](https://www.th
 *   **Validation of character size sent in the payload by the 'card\_number' key (if a card number is sent without the standard number of characters for a credit card, it will be denied)** 📏
 *   **Rejection of a transaction if a customer makes up to 5 attempts within 1 hour** ⏰
 *   **Denial of more than 3 transactions with a value greater than or equal to X within 1 hour** 🚫💸
+*   **Control over user transactions, extracting the number of times transactions were made and the values the user transacted during a specific period (x period).** ✅
+*   **Insertion of new payloads(data) into the database, allowing for testing with the newly created payloads.** 🚀
 
