@@ -1,142 +1,53 @@
-VERIFICAÇÕES
-- INTEGRAÇÃO COM MYSQL
-- Renderização do JSON ATRAVÉS DO EXPRESS
-- UTILIZAÇÃO DO INSMONIA PARA TESTES COM POST E GET
-- VALIDAÇÃO DE CADA CAMPO (SE PREENCHIDO OU NÃO, RETORNANDO O RESPONSE SUGERIDO)
-- VALIDAÇÃO DE TAMANHO DE CARACTERES ENVIADO NO PAYLOAD PELA CHAVE card_number (SE ENVIADO 
-UM NÚMERO DE CARTÃO SEM A QUANTIDADE PADRÃO DE CARACTERES, SERÁ NEGADO)
-- Reject transaction if user is trying too many transactions in a row: {
-// recuse acima de 3 transações de pagamentos na mesma hora
-// definir número de transações
-// recebo a transação a ser validada
-// utilizo meu banco da dados para pegar as transações da última hora
-// utilizar a data para verificar se existem pelo menos 3 transações na última hora
-// retornar o objeto sendo aprovado ou negado
-// se houver até 2 transações na última hora, aprovado
-// se houver 3 ou mais transações na última hora, reprovado
-// SALVAR A TRANSAÇÃO NO BANCO DE DADOS PARA VALIDAÇÕES
-// VALOR DA TRANSAÇÃO NÃO PODE SE REPETIR 5 VEZES EM UM PERIODO DE UMA HORA
-// EM CASO DE 3 TRANSAÇÕES EM UM VALOR DE 300 REAIS OU SUPERIOR É NEGADA A TRANSAÇÃO
+**2.1. Understand the Industry**
 
-EXEMPLO DE UM transaction_date COM MAIS OU IGUAL A 5 TENTATIVAS DE TRANSAÇÕES RETORNANDO DENIED:
-2019-12-01T21:59:19.797129
-EXEMPLO DE UM transaction_date COM MENOS DE 5 TENTATIVAS DE TRANSAÇÕES RETORNANDO APPROVE:
-2019-11-31T23:16:32.812632
-}
+1. **Money Flow, Information Flow, and Main Players:**
+   - Money Flow: In the payment industry, money flows from the cardholder to the merchant through a series of intermediaries. The process typically involves the cardholder, merchant, acquiring bank (acquirer), issuing bank (issuer), card networks (like Visa, Mastercard), and payment processors.
+   - Information Flow: Information flows between these players to authorize and process transactions. This includes transaction details, authentication, and settlement information.
+   - Main Players:
+     - Cardholder: Individual making the purchase.
+     - Merchant: Business selling goods/services.
+     - Acquirer: Bank or financial institution that facilitates merchants in accepting card payments.
+     - Issuer: Bank that issued the credit/debit card to the cardholder.
+     - Payment Gateway: Facilitates the communication between the merchant, acquirer, and card networks.
 
+2. **Differences between Acquirer, Sub-Acquirer, and Payment Gateway:**
+   - Acquirer: Processes transactions for the merchant, facilitating funds transfer.
+   - Sub-Acquirer: An intermediary between the merchant and the acquirer, often used in partnerships or specific business models.
+   - Payment Gateway: Handles the secure transfer of transaction data between the merchant and acquirer, ensuring communication compatibility.
 
-// const mysql = require('mysql2/promise');
+3. **Chargebacks, Cancellations, and Connection with Fraud:**
+   - Chargebacks: A chargeback occurs when a cardholder disputes a transaction, claiming non-receipt of goods or services, fraud, etc. The funds are reversed from the merchant's account.
+   - Cancellation: The voluntary cancellation of a transaction before it is settled.
+   - Connection with Fraud: Chargebacks are often related to fraud when a cardholder denies making a legitimate transaction.
 
-// const connection = mysql.createPool({
-//   host: process.env.MYSQL_HOST,
-//   user: process.env.MYSQL_USER,
-//   password: process.env.MYSQL_PASSWORD,
-//   port: process.env.MYSQL_PORT || 3306,
-// });
+**2.2. Solve the Problem**
 
-CRIAÇÃO DA DATA PARA TESTES:
-CREATE DATABASE IF NOT EXISTS DB_TRANSACTIONS;
+Considering the chargeback reason is "Product/Service not provided":
+- Communicate with the client empathetically, expressing understanding.
+- Request additional evidence of product delivery from the client.
+- Investigate internally to gather any additional proof of product/service delivery.
+- If evidence is conclusive, represent the case to the issuer with the new evidence.
+- If not, consider options like offering a refund or replacement to the customer to resolve the issue amicably.
 
-USE DB_TRANSACTIONS;
+**3. Get Your Hands Dirty**
 
-CREATE TABLE `transactions` 
-(
-    `transaction_id`	INT,
-    `merchant_id`	INT,
-    `user_id`	INT,
-    `card_number`	VARCHAR(512),
-    `transaction_date`	DATETIME,
-    `transaction_amount`	DOUBLE,
-    `device_id`	INT,
-    `has_cbk`	BOOLEAN
-);
+1. **Analysis of Transactional Data:**
+   - Identify patterns where the same user (User_id) has multiple transactions with chargebacks (Has_cbk).
+   - Look for anomalies in transaction amounts, frequencies, and locations.
+   - Analyze device_id to identify suspicious behavior, such as multiple users sharing the same device.
+   - Investigate transactions with chargebacks to find commonalities.
+	 - Analyze if the user tried to make more than 5 transactions in one hour, leaving it dynamic in cases where Acquirer accepts more than 5 transactions
+	 - Analyze if the user tried to make more than 3 transactions in one hour with a value greater than x
 
-INSERT INTO `transactions` (`transaction_id`, `merchant_id`, `user_id`, `card_number`, `transaction_date`, `transaction_amount`, `device_id`, `has_cbk`) VALUES
-	('21320398', '29744', '97051', '434505******9116', '2019-12-01T23:16:32.812632', '374.56', '285475', FALSE),
-	('21320399', '92895', '2708', '444456******4210', '2019-12-01T22:45:37.873639', '734.87', '497105', TRUE),
-	('21320400', '47759', '14777', '425850******7024', '2019-12-01T22:22:43.021495', '760.36', NULL, FALSE),
-	('21320401', '68657', '69758', '464296******3991', '2019-12-01T21:59:19.797129', '2556.13', NULL, TRUE),
-	('21320402', '54075', '64367', '650487******6116', '2019-12-01T21:30:53.347051', '55.36', '860232', FALSE),
-	('21320403', '59566', '40759', '516292******8220', '2019-12-01T21:25:53.374213', '60.49', '192705', FALSE),
-	('21320404', '20917', '25661', '650485******9310', '2019-12-01T21:25:19.532243', '318.37', '760932', FALSE),
-	('21320405', '56107', '81152', '650516******9201', '2019-12-01T21:24:05.608374', '188.68', '486', TRUE),
-	('21320406', '56107', '81152', '650516******9201', '2019-12-01T21:13:21.529999', '352.77', '486', TRUE),
-	('21320407', '56107', '81152', '650516******9201', '2019-12-01T21:04:55.066909', '345.68', '486', TRUE),
-	('21320408', '36049', '90169', '470598******5710', '2019-12-01T20:48:10.921857', '209.05', '34672', FALSE),
-	('21320409', '32954', '6', '428267******9019', '2019-12-01T20:44:48.109011', '443.90', '757451', FALSE),
-	('21320410', '22918', '25484', '544731******2063', '2019-12-01T20:42:48.072667', '498.32', '152156', FALSE),
-	('21320411', '56107', '81152', '650516******7004', '2019-12-01T20:36:55.091278', '32.86', '486', TRUE),
-	('21320412', '54', '39024', '541465******7050', '2019-12-01T20:29:10.619095', '471.66', '727482', FALSE),
-	('21320413', '56107', '81669', '530033******7110', '2019-12-01T20:28:58.300822', '31.94', '639245', FALSE),
-	('21320414', '81316', '79874', '230744******1389', '2019-12-01T20:18:33.089817', '539.91', '737369', FALSE),
-	('21320415', '10016', '76014', '530780******1598', '2019-12-01T20:07:06.538570', '243.18', '305194', FALSE),
-	('21320416', '97583', '6434', '498401******3796', '2019-12-01T19:56:26.207496', '396.84', NULL, FALSE),
-	('21320417', '94325', '89366', '406669******3532', '2019-12-01T19:56:11.691107', '527.13', '674576', FALSE),
-	('21320418', '86777', '40302', '498423******5469', '2019-12-01T19:48:37.168884', '902.87', '471506', FALSE),
-	('21320419', '3788', '18009', '550209******5149', '2019-12-01T19:44:40.414039', '296.27', NULL, FALSE),
-	('21320420', '58185', '47303', '412793******3067', '2019-12-01T19:36:09.267065', '1126.56', '381052', FALSE),
-	('21320421', '23451', '41027', '409603******3751', '2019-12-01T19:35:36.692019', '221.63', '139118', FALSE),
-	('21320422', '44519', '6714', '535016******1388', '2019-12-01T19:34:54.468179', '20.32', '397162', FALSE),
-	('21320423', '30180', '7961', '606282******5629', '2019-12-01T19:31:34.252192', '2022.55', '686252', FALSE),
-	('21320424', '53816', '5541', '606282******3381', '2019-12-01T19:31:20.047571', '2597.51', '656429', TRUE),
-	('21320425', '31644', '7348', '650521******8016', '2019-12-01T19:29:43.533565', '701.18', '946289', FALSE),
-	('21320426', '11470', '5541', '606282******3381', '2019-12-01T19:26:01.352512', '2511.43', '656429', TRUE),
-	('21320427', '20498', '184', '467090******6410', '2019-12-01T19:23:45.202875', '223.63', '157031', FALSE),
-	('21320428', '73271', '7725', '489391******7420', '2019-12-01T19:22:45.419831', '2092.79', '308950', TRUE),
-	('21320429', '86777', '40302', '230650******6489', '2019-12-01T19:19:50.578641', '854.05', '471506', FALSE),
-	('21320430', '56977', '69758', '464296******3991', '2019-12-01T19:17:21.731168', '2803.32', NULL, TRUE),
-	('21320431', '44529', '4800', '432958******2015', '2019-12-01T19:12:46.651625', '342.32', '469761', FALSE),
-	('21320432', '49710', '5541', '606282******3381', '2019-12-01T19:12:42.641216', '2515.13', '656429', TRUE),
-	('21320433', '16136', '41424', '534696******9711', '2019-12-01T19:07:37.042047', '916.68', '456630', FALSE),
-	('21320434', '88619', '67966', '536949******4009', '2019-12-01T18:54:40.713736', '50.53', '142420', FALSE),
-	('21320435', '77233', '33071', '410715******1060', '2019-12-01T18:50:49.945124', '38.79', '81722', FALSE),
-	('21320436', '28785', '80202', '606282******5220', '2019-12-01T18:36:47.601739', '178.02', '163561', FALSE),
-	('21320437', '32384', '22142', '530780******9123', '2019-12-01T18:35:57.617754', '573.93', '224158', FALSE),
-	('21320438', '71094', '78309', '480632******3828', '2019-12-01T18:35:49.200503', '1624.44', '518311', FALSE),
-	('21320439', '5868', '38003', '498453******8025', '2019-12-01T18:33:44.530659', '2332.18', '968225', FALSE),
-	('21320440', '8377', '37462', '485464******6620', '2019-12-01T18:33:36.590582', '247.18', '948123', FALSE),
-	('21320441', '68953', '10241', '533728******5576', '2019-12-01T18:30:00.099776', '2507.78', '94234', TRUE),
-	('21320442', '36258', '47893', '544731******3815', '2019-12-01T18:28:10.773751', '217.01', NULL, FALSE),
-	('21320443', '60510', '23123', '406655******5299', '2019-12-01T18:26:02.404181', '365.77', NULL, FALSE),
-	('21320444', '80642', '84536', '540593******7679', '2019-12-01T18:17:02.141073', '1384.60', '585241', FALSE),
-	('21320445', '64641', '94988', '544731******6862', '2019-12-01T18:16:12.958724', '360.20', '797054', FALSE),
-	('21320446', '91072', '90229', '498453******2638', '2019-12-01T17:57:00.576818', '222.74', '519993', FALSE),
-	('21320447', '59574', '8359', '550209******1321', '2019-12-01T17:47:09.350513', '267.65', '866432', FALSE),
-	('21320448', '46182', '96273', '516292******3778', '2019-12-01T17:42:52.766409', '398.63', '251576', FALSE),
-	('21320449', '3097', '69321', '485464******4340', '2019-12-01T17:31:28.218072', '199.28', '332900', FALSE),
-	('21320450', '27220', '9005', '554906******3672', '2019-12-01T17:19:03.850675', '70.58', NULL, FALSE),
-	('21320451', '85243', '3060', '525663******4752', '2019-12-01T17:11:41.417862', '20.06', '625590', FALSE),
-	('21320452', '33903', '53472', '516292******1745', '2019-12-01T16:57:12.155594', '1264.52', '780606', FALSE),
-	('21320453', '67764', '21768', '530034******3859', '2019-12-01T16:55:55.203125', '1012.16', '357277', TRUE),
-	('21320454', '67764', '21768', '530034******3859', '2019-12-01T16:52:17.571354', '170.69', '357277', TRUE),
-	('21320455', '47242', '11648', '230650******4968', '2019-12-01T16:52:14.140796', '815.82', '530487', FALSE),
-	('21320456', '71549', '39744', '522688******3105', '2019-12-01T16:50:50.013737', '790.71', '739317', FALSE),
-	('21320457', '22986', '44362', '482425******7128', '2019-12-01T16:49:10.332055', '197.82', '122718', FALSE),
-	('21320458', '42356', '74585', '536805******7429', '2019-12-01T16:46:00.609623', '98.08', '126381', FALSE),
-	('21320459', '21087', '85253', '453211******3056', '2019-12-01T16:44:06.559139', '344.04', '848391', FALSE),
-	('21320460', '66876', '11750', '453211******1392', '2019-12-01T16:43:09.730317', '687.57', '342890', TRUE),
-	('21320461', '18236', '28715', '530994******8420', '2019-12-01T16:40:47.765725', '186.66', '72138', FALSE),
-	('21320462', '65760', '29278', '544731******4903', '2019-12-01T16:39:04.485465', '314.03', '170978', FALSE),
-	('21320463', '96863', '59544', '553665******3579', '2019-12-01T16:37:32.177224', '835.95', '278185', FALSE),
-	('21320464', '18329', '69540', '516292******5316', '2019-12-01T16:30:47.691180', '670.00', '516243', FALSE),
-	('21320465', '72751', '42624', '530994******2312', '2019-12-01T16:28:17.877150', '227.94', '893612', FALSE),
-	('21320466', '81229', '3050', '606282******5711', '2019-12-01T16:15:35.144095', '298.18', '21192', FALSE),
-	('21320467', '90032', '79699', '527468******7710', '2019-12-01T16:01:52.834231', '706.62', '178881', FALSE),
-	('21320468', '26647', '85628', '550209******4309', '2019-12-01T15:57:01.401091', '361.19', NULL, FALSE),
-	('21320469', '35140', '65457', '524703******6510', '2019-12-01T15:56:08.670378', '236.64', '680238', FALSE),
-	('21320470', '16298', '52694', '455183******9405', '2019-12-01T15:54:26.653409', '415.98', '714772', FALSE),
-	('21320471', '66430', '25617', '550209******8673', '2019-12-01T15:46:34.313006', '1921.08', '113689', FALSE),
-	('21320472', '37267', '93869', '498407******8891', '2019-12-01T15:45:55.211380', '1158.99', '97512', FALSE),
-	('21320473', '22454', '79564', '542820******3273', '2019-12-01T15:44:42.139806', '398.47', NULL, FALSE),
-	('21320474', '92089', '86071', '412177******4136', '2019-12-01T15:32:52.775029', '614.22', '367575', FALSE),
-	('21320475', '90032', '43608', '542820******6396', '2019-12-01T15:23:17.587693', '616.13', '423991', FALSE),
-	('21320476', '16221', '45300', '651653******700', '2019-12-01T15:19:08.759190', '264.11', NULL, FALSE),
-	('21320477', '65640', '28025', '526549******5604', '2019-12-01T15:11:10.463572', '460.10', '535507', FALSE),
-	('21320478', '84546', '55544', '427167******310', '2019-12-01T15:10:31.059068', '2750.30', '503714', FALSE),
-	('21320479', '28785', '1518', '515590******9729', '2019-12-01T15:10:27.229305', '80.39', NULL, FALSE),
-	('21320480', '88463', '99760', '432032******5131', '2019-12-01T15:01:51.945130', '72.16', '840640', FALSE),
-	('21320481', '88252', '16064', '514945******9585', '2019-12-01T14:56:42.196284', '796.83', '673627', FALSE),
-	('21320482', '3057', '12621', '523284******6827', '2019-12-01T14:48:54.837619', '149.14', '590486', FALSE),
-	('21320483', '30753', '38921', '415274******1218', '2019-12-01T14:48:09.360295', '99.64', NULL, FALSE),
-	('21320484', '84970', '90182', '464296******3991', '2019-12-01T14:46:28.746288', '3782.17', '769545', TRUE);
+2. **Additional Data Consideration:**
+   - IP addresses, geolocation data, and device fingerprints for enhanced user verification.
+   - Behavioral analytics, considering the time of day, user habits, and transaction history.
 
+3. **Suggestions to Prevent Fraud/Chargebacks:**
+   - Implement real-time transaction monitoring and anomaly detection.
+   - Enhance customer authentication methods.
+   - Educate customers on secure practices and provide clear transaction details.
+   - Periodic reviews of transactional data to identify evolving patterns.
+
+**4. Create a Simple Anti-fraud**
+The creation of the system is created in the files inside the SRC folder. Being a fraud system created using nodejs with integration in Mysql and software architecture based on MSC - Models, Services, Controllers.

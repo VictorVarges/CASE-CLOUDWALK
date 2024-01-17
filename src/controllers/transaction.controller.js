@@ -5,7 +5,7 @@ const { HTTPSTATUS, HTTPRESPONSEAPPROVE, HTTPRESPONSEDENIED } = require('../HTTP
 const getAllTransactions = async (req, res) => {
   const allTransactions = await transactionService.getAllTransactions();
   
-  res.json(allTransactions);
+  res.status(HTTPSTATUS.OK).json(allTransactions);
 };
 
 const validateTransaction = async (req, res, next) => {
