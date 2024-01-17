@@ -8,7 +8,7 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-app.get('/transactions', getAllTransactions);
+app.get('/', getAllTransactions);
 app.post('/transactions', validationsPayload, validateTransaction);
 
 app.listen(port, () => {

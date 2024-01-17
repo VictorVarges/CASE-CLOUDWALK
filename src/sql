@@ -10,6 +10,10 @@ CREATE TABLE `transactions`
     `has_cbk`	BOOLEAN
 );
 
+CREATE DATABASE IF NOT EXISTS DB_TRANSACTIONS;
+
+USE DB_TRANSACTIONS;
+
 INSERT INTO `transactions` (`transaction_id`, `merchant_id`, `user_id`, `card_number`, `transaction_date`, `transaction_amount`, `device_id`, `has_cbk`) VALUES
 	('21320398', '29744', '97051', '434505******9116', '2019-12-01T23:16:32.812632', '374.56', '285475', FALSE),
 	('21320399', '92895', '2708', '444456******4210', '2019-12-01T22:45:37.873639', '734.87', '497105', TRUE),

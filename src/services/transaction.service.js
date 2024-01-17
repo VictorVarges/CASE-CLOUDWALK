@@ -15,7 +15,6 @@ const transactionValidationInAHour = async (lastHourTransactions) => {
   return true
 };
 
-// NEGA MAIS DE 3 TRANSAÇÕES COM VALOR SUPERIOR OU IGUAL A X EM ATÉ 1 UMA HORA 
 const validateMaxTransactionAmount = async (lastHourTransactions) => {
   const transactionsWithHighValueInOneHour
     = await lastHourTransactions.filter(eachTransaction => (eachTransaction.transaction_amount >= MAX_TRANSACTION_AMOUNT));
