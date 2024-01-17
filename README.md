@@ -21,8 +21,8 @@ Endpoints 🛣️
 
 It's important to note that all requests were made through the '/transactions' route. To check all case validations, access the following endpoints:
 
-*   GET /transactions
-*   POST /transactions
+*   GET http://localhost:{port}
+*   POST http://localhost:{port}/transactions
 
 Tools 🧰
 --------
@@ -30,6 +30,7 @@ Tools 🧰
 *   Node.js with Express.js
 *   MySQL
 *   REST API CRUD
+*   MSC - MODEL, SERVICE, CONTROLLER
 
 Installation of Dependencies ⚙️
 -------------------------------
@@ -56,25 +57,8 @@ Upon entering the folder, execute the following command to create the database t
 
 For database integration, execute this SQL script using your preferred framework that runs MYSQL12:
 ---------------------------------------------------------------------------------------------------
-
-CREATE DATABASE IF NOT EXISTS DB_TRANSACTIONS;  
-
-USE DB_TRANSACTIONS;    
-
-CREATE TABLE \`transactions\`   
-(
-    \`transaction\_id\` INT,  
-    \`merchant\_id\` INT,  
-    \`user\_id\` INT,  
-    \`card\_number\` VARCHAR(512),  
-    \`transaction\_date\` DATETIME,  
-    \`transaction\_amount\` DOUBLE,  
-    \`device\_id\` INT,  
-    \`has\_cbk\` BOOLEAN  
-);
-
-INSERT INTO \`transactions\` (\`transaction\_id\`, \`merchant\_id\`, \`user\_id\`, \`card\_number\`, \`transaction\_date\`, \`transaction\_amount\`, \`device\_id\`, \`has\_cbk\`) VALUES
-    ('21320398', '29744', '97051', '434505\*\*\*\*\*\*9116', '2019-12-01T23:16:32.812632', '374.56', '285475', FALSE);
+* Utilize o arquivo *sql*, nele contém o seeder necessário para realização de testes:
+* **src/sql**
     
 
 You can use [Postman](https://www.postman.com/), [Thunder Client](https://www.thunderclient.com/), or [Insomnia](https://insomnia.rest/) to make requests to the endpoints.
