@@ -42,7 +42,7 @@ Create a .env file with the following structure:
 
 MYSQL\_USER=root  
 MYSQL\_PASSWORD=senha\_mysql    
-MYSQL\_DATABASE=transactions  
+MYSQL\_DATABASE=DB_TRANSACTIONS  
 MYSQL\_HOST='127.0.0.1'  
     
 
@@ -57,9 +57,9 @@ Upon entering the folder, execute the following command to create the database t
 For database integration, execute this SQL script using your preferred framework that runs MYSQL12:
 ---------------------------------------------------------------------------------------------------
 
-CREATE DATABASE IF NOT EXISTS DB\_TRANSACTIONS;  
+CREATE DATABASE IF NOT EXISTS DB_TRANSACTIONS;  
 
-USE DB\_TRANSACTIONS;  
+USE DB_TRANSACTIONS;    
 
 CREATE TABLE \`transactions\`   
 (
@@ -77,7 +77,7 @@ INSERT INTO \`transactions\` (\`transaction\_id\`, \`merchant\_id\`, \`user\_id\
     ('21320398', '29744', '97051', '434505\*\*\*\*\*\*9116', '2019-12-01T23:16:32.812632', '374.56', '285475', FALSE);
     
 
-You can use [Postman](https://www.postman.com/), [Thunder Client](https://www.thunderclient.com/), or [Insomnia](https://insomnia.rest/) to make requests to the endpoints. Also, check the [Sequelize Setup Cheatsheet](https://bootcamp.rocketacademy.co/4-backend-structure/4.1-orm-sequelize/4.1.9-sequelize-setup-cheatsheet) created by Rocket Academy.
+You can use [Postman](https://www.postman.com/), [Thunder Client](https://www.thunderclient.com/), or [Insomnia](https://insomnia.rest/) to make requests to the endpoints.
 
 ### Project Achievements 🏆
 
