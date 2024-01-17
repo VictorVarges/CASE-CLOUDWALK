@@ -1,0 +1,19 @@
+const HTTPSTATUS = {
+  OK: 200,
+  CREATED: 201,
+  UNAUTHORIZED: 401,
+  BAD_REQUEST: 400,
+  UNPROCESSABLE_ENTITY: 422,
+  NOT_FOUND: 404,
+}
+
+const HTTPRESPONSEAPPROVE = {
+  'recommendation': 'approve'
+}
+
+const HTTPRESPONSEDENIED = {
+  'recommendation': 'denied'
+}
+
+
+module.exports = { HTTPSTATUS, HTTPRESPONSEAPPROVE, HTTPRESPONSEDENIED }
