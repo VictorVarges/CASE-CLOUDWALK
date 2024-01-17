@@ -6,6 +6,11 @@ Description ℹ️
 
 This project is about creating an antifraud system, implemented through a CRUD using Node.js for the MSC architecture. The system uses a MySQL relational database to store transactions, querying and inserting data into the 'transactions' table.
 
+Questions 2.1. Understand the Industry, 2.2. Solve the problem, 3. Get your hands dirty ℹ️
+------------------------------------------------------------------------------------------
+
+They have been made, and to view them through the readme, just access the src folder and select the readme from the folder. Having this path: *src/readme.md*.
+
 Database 🛢️
 ------------
 
