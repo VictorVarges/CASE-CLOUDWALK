@@ -9,7 +9,9 @@ This project is about creating an antifraud system, implemented through a CRUD u
 Questions 2.1. Understand the Industry, 2.2. Solve the problem, 3. Get your hands dirty ℹ️
 ------------------------------------------------------------------------------------------
 
-They have been made, and to view them through the readme, just access the src folder and select the readme from the folder. Having this path: *src/readme.md*.
+They have been made, and to view them through the readme, just `access the src folder and select the readme from the folder`.
+Having this path:  
+`src/readme.md`.
 
 Database 🛢️
 ------------
@@ -57,8 +59,8 @@ Upon entering the folder, execute the following command to create the database t
 
 For database integration, execute this SQL script using your preferred framework that runs MYSQL12:
 ---------------------------------------------------------------------------------------------------
-* Utilize o arquivo *sql*, nele contém o seeder necessário para realização de testes:
-* **src/sql**
+*Use the `sql` file; it contains the necessary seeder for conducting tests:
+*`src/sql`
     
 
 You can use [Postman](https://www.postman.com/), [Thunder Client](https://www.thunderclient.com/), or [Insomnia](https://insomnia.rest/) to make requests to the endpoints.
