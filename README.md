@@ -65,8 +65,8 @@ For database integration, execute this SQL script using your preferred framework
 
 You can use [Postman](https://www.postman.com/), [Thunder Client](https://www.thunderclient.com/), or [Insomnia](https://insomnia.rest/) to make requests to the endpoints.
 
+--------------------------
 ### Project Achievements 🏆
----------------------------
 
 *   **Integration with MySQL and Node.js** 🚀
 *   **Rendering of JSON through Express** 🎨
