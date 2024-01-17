@@ -33,6 +33,8 @@ Tools 🧰
 *   MySQL
 *   REST API CRUD
 *   MSC - MODEL, SERVICE, CONTROLLER
+*   MYSQL Workebench
+*   INSOMNIA
 
 Installation of Dependencies ⚙️
 -------------------------------
@@ -59,7 +61,7 @@ Upon entering the folder, execute the following command to create the database t
 
 For database integration, execute this SQL script using your preferred framework that runs MYSQL12:
 ---------------------------------------------------------------------------------------------------
-*Use the `sql` file; it contains the necessary seeder for conducting tests:
+*Use the `sql` file e rode em um ambiente mysql, em meu caso foi utilizado o MYSQL Workebench; it contains the necessary seeder for conducting tests:
 *`src/sql`
     
 
